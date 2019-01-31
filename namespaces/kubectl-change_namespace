@@ -1,10 +1,10 @@
 #!/bin/bash
 
-SOME_OPTIONS=($(kubectl get ns --no-headers | awk '{print $1}'))
+ALL_NAMESPACES=($(kubectl get ns --no-headers | awk '{print $1}'))
 
 show_menu() {
 	local n=1
-	for ns in ${SOME_OPTIONS[@]}; do
+	for ns in ${ALL_NAMESPACES[@]}; do
 		echo "$n. $ns"
 		(( n += 1 ))
 	done
@@ -12,8 +12,8 @@ show_menu() {
 
 read_options(){
 	local choice
-	read -p "Choose a namespace [1 - ${#SOME_OPTIONS[@]}] " choice
-	kubectl config set-context $(kubectl config current-context) --namespace=${SOME_OPTIONS[ (( choice - 1 )) ]}
+	read -p "Choose a namespace [1 - ${#ALL_NAMESPACES[@]}] " choice
+	kubectl config set-context $(kubectl config current-context) --namespace=${ALL_NAMESPACES[ (( choice - 1 )) ]}
 }
 
 show_menu
