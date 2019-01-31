@@ -1,7 +1,13 @@
 #!/bin/bash
+# This shows a list of namespaces and updates context to switch between them
+# Should be expanded to highlight current namespace and have other use options
+# For example simply list current namespace
 
+# Get namespaces
 ALL_NAMESPACES=($(kubectl get ns --no-headers | awk '{print $1}'))
 
+# Create a menu for namespaces
+# TODO: remove non-user namespaces (kube-system, default etc)
 show_menu() {
 	local n=1
 	for ns in ${ALL_NAMESPACES[@]}; do
