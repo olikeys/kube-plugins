@@ -3,6 +3,8 @@
 # Should be expanded to highlight current namespace and have other use options
 # For example simply list current namespace
 
+# Set current context
+CURRENT_CONTEXT=$(kubectl config current-context)
 # Get namespaces
 ALL_NAMESPACES=($(kubectl get ns --no-headers | awk '{print $1}'))
 
@@ -19,7 +21,7 @@ show_menu() {
 read_options(){
   local choice
   read -p "Choose a namespace [1 - ${#ALL_NAMESPACES[@]}] " choice
-  kubectl config set-context $(kubectl config current-context) --namespace=${ALL_NAMESPACES[ (( choice - 1 )) ]} > /dev/null 2>&1
+  kubectl config set-context ${CURRENT_CONTEXT} --namespace=${ALL_NAMESPACES[ (( choice - 1 )) ]} > /dev/null 2>&1
   echo "Switched to Namespace: ${ALL_NAMESPACES[ (( choice - 1 )) ]}"
 }
 
