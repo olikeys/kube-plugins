@@ -1,0 +1,21 @@
+#!/bin/bash
+ALL_NAMESPACES=($(kubectl get ns --no-headers | awk '{print $1}'))
+
+
+if [[ "$1" == "master" ]]
+then
+    watch -n 1 kubectl get nodes -l node-role.kubernetes.io/master --no-headers
+    exit 0
+fi
+
+if [[ "$1" == "worker" ]]
+then
+    watch -n 1 kubectl get nodes -l node-role.kubernetes.io/node --no-headers
+    exit 0
+fi
+
+if [[ " ${ALL_NAMESPACES[@]} " =~ " ${1} " ]]; then
+  watch -n 1 kubectl get pods -n $1
+fi
+
+
