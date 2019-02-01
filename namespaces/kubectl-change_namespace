@@ -19,7 +19,8 @@ show_menu() {
 read_options(){
 	local choice
 	read -p "Choose a namespace [1 - ${#ALL_NAMESPACES[@]}] " choice
-	kubectl config set-context $(kubectl config current-context) --namespace=${ALL_NAMESPACES[ (( choice - 1 )) ]}
+	kubectl config set-context $(kubectl config current-context) --namespace=${ALL_NAMESPACES[ (( choice - 1 )) ]} > /dev/null 2>&1
+	echo "Switched to Namespace: ${ALL_NAMESPACES[ (( choice - 1 )) ]}"
 }
 
 show_menu
